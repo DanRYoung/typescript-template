@@ -1,13 +1,26 @@
 {
   "name": "typescript-template",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "build/index.js",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "tsc"
+    "start": "nodemon src/index.ts",
+    "build": "tsc && cp package.json build/src",
+    "prune-modules": "node-prune node_modules",
+    "bundle": "webpack",
+    "make-binary": "pkg bundle/main.js --out-path=bin",
+    "lint": "eslint"
   },
   "devDependencies": {
-    "@types/node": "^16.9.6"
+    "@types/eslint": "^7.28.0",
+    "@types/node": "^16.9.6",
+    "eslint": "^7.32.0",
+    "nodemon": "^2.0.12",
+    "pkg": "^5.3.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3",
+    "webpack": "^5.53.0",
+    "webpack-cli": "^4.8.0"
   }
 }

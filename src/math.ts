@@ -4,5 +4,5 @@
  * @param max Maximum random value, exclusive
  * @returns Random value in the range [min, max)
  */
-const randomFloat = (min: number, max: number): number =>
+export const randomFloat = (min: number, max: number): number =>
   min + (max - min) * Math.random();
