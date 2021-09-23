@@ -1,0 +1,17 @@
+[Unit]
+Description={{ service.name }}
+
+Wants=network.target
+After=syslog.target network-online.target
+
+[Service]
+Type=simple
+Environment=PATH=/usr/local/lib/nodejs/node-v14.16.0-linux-armv7l/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/usr/local/lib/nodejs/node-v14.16.0-linux-armv7l/bin/node main.js
+WorkingDirectory=/opt/services/{{ service.name }}/package
+Restart=on-failure
+RestartSec=10
+KillMode=control-group
+
+[Install]
+WantedBy=multi-user.target

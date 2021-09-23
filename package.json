@@ -6,16 +6,21 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon src/index.ts",
+    "prebuild": "tsc && cp package.json build/src",
     "build": "tsc && cp package.json build/src",
     "prune-modules": "node-prune node_modules",
     "bundle": "webpack",
-    "make-binary": "pkg bundle/main.js --out-path=bin",
-    "lint": "eslint"
+    "make-binary": "pkg bundle/main.js --out-path=bundle",
+    "compress": "tar -cvzf bundle/main-$npm_package_version-$(. ./scripts/commit-hash.sh && get_hash()).tar.gz bundle/*",
+    "test": "eslint",
+    "lint": "eslint",
+    "clean": "rm -rf node_modules bundle build"
   },
   "devDependencies": {
     "@types/eslint": "^7.28.0",
     "@types/node": "^16.9.6",
     "eslint": "^7.32.0",
+    "jest": "^27.2.1",
     "nodemon": "^2.0.12",
     "pkg": "^5.3.2",
     "ts-node": "^10.2.1",

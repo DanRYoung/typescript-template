@@ -1,0 +1,32 @@
+name: Build application and persist to JFrog
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn
+      - run: yarn prune-modules
+      - run: yarn build
+      - run: yarn bundle
+      - run: yarn make-binary
+      - run: yarn compress
+      - uses: jfrog/setup-jfrog-cli@v1
+      - name: Configure JFrog CLI
+        run: |
+          jfrog rt c wassonece --url=https://wassonece.jfrog.io/artifactory --user="github-actions" --apikey="${{ secrets.GHA_JFROG_API_KEY }}"
+      - name: Upload artifacts
+        run: |
+          jfrog rt use wassonece
+          jfrog rt u "bundle/(*.tar.gz)" node-generic/typescript-template/{1}

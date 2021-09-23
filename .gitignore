@@ -1,6 +1,5 @@
 build
 bundle
-bin
 node_modules
 tsconfig.tsbuildinfo
 *.tgz
