@@ -6,16 +6,24 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon src/index.ts",
-    "prebuild": "tsc && cp package.json build/src",
+    "prebuild": "source scripts/get-commit-hash.sh && update_hash",
     "build": "tsc && cp package.json build/src",
-    "prune-modules": "node-prune node_modules",
     "bundle": "webpack",
-    "make-binary": "pkg bundle/main.js --out-path=bundle",
-    "compress": "tar -cvzf bundle/main-$npm_package_version-$(. ./scripts/commit-hash.sh && get_hash()).tar.gz bundle/*",
+    "make-binary": "pkg package.json",
+    "compress": "tar -cvzf bundle/$npm_package_name-$npm_package_version-$(. ./scripts/get-commit-hash.sh && get_hash >&1).tar.gz bundle/*",
     "test": "eslint",
     "lint": "eslint",
     "clean": "rm -rf node_modules bundle build"
   },
+  "pkg": {
+    "targets": [
+      "node14-linux-x64",
+      "node14-macos-x64",
+      "node14-win-x64"
+    ],
+    "outputPath": "bundle"
+  },
+  "bin": "bundle/main.js",
   "devDependencies": {
     "@types/eslint": "^7.28.0",
     "@types/node": "^16.9.6",
