@@ -1,5 +1,4 @@
 name: Build application and persist to JFrog
-
 on:
   push:
     branches:
@@ -16,7 +15,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn --production
+      - run: yarn
       - run: yarn build
       - run: yarn bundle
       - run: yarn make-binary

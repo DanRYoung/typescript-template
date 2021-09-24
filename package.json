@@ -6,11 +6,11 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "nodemon src/index.ts",
-    "prebuild": "source scripts/get-commit-hash.sh && update_hash",
+    "prebuild": "source scripts/git.sh && update_hash",
     "build": "tsc && cp package.json build/src",
     "bundle": "webpack",
     "make-binary": "pkg package.json",
-    "compress": "tar -cvzf bundle/$npm_package_name-$npm_package_version-$(. ./scripts/get-commit-hash.sh && get_hash >&1).tar.gz bundle/*",
+    "compress": "tar -cvzf bundle/$npm_package_name-$npm_package_version-$(. ./scripts/git.sh && get_hash >&1).tar.gz bundle/*",
     "test": "jest",
     "lint": "eslint",
     "clean": "rm -rf node_modules bundle build"
@@ -37,5 +37,6 @@
     "typescript": "^4.4.3",
     "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0"
-  }
+  },
+  "dependencies": {}
 }
