@@ -1,0 +1,54 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  vars:
+    input: "{{ lookup('file','./package.json') | from_json }}"
+    temporary_files: ansible-templates/tmp
+  tasks:
+    - name: Parse package.json
+      set_fact:
+        package_json: "{{ input }}"
+    - name: Assign parsed package.json to package_json
+      debug:
+        var: package_json.name
+    - name: Build the service
+      ansible.builtin.shell: |
+        yarn
+        yarn build
+        yarn bundle
+    - name: Create directory for remote service files
+      ansible.builtin.file:
+        path: "{{ temporary_files }}"
+        state: directory
+    - name: Generate remote service files
+      template:
+        src: "ansible-templates/{{ item.src }}"
+        dest: "{{ temporary_files }}/{{ item.dest }}"
+        mode: "u=rw,o=r,g=r"
+      loop:
+        - src: "systemd.service.j2"
+          dest: "{{ package_json.name }}.service.j2"
+# ---
+# - hosts: 127.0.0.1
+#   connection: local
+#   vars:
+#     input: "{{ lookup('file','./package.json') | from_json }}"
+#   tasks:
+#     - name: Parse package.json
+#       set_fact:
+#         package_json: "{{ input }}"
+#     - name: Assign parsed package.json to package_json
+#       debug:
+#         var: package_json.name
+    # - name: Transfer files
+    #   template:
+    #     src: "{{ item.src }}"
+    #     dest: "{{ item.dest }}"
+    #     mode: "u=rw,o=r,g=r"
+    #     # owner: root
+    #     # group: root
+    #   loop:
+    #     - src: "ansible-templates/tmp/{{ package_json.name }}.service.j2"
+    #       dest: /etc/systemd/user/{{ package_json.name }}.service
+    #     - src: "bundle/main.js"
+    #       dest: /opt/services/{{ package_json.name }}/main.js

@@ -1,7 +1,7 @@
 {
   "name": "typescript-template",
   "version": "1.0.0",
-  "main": "build/index.js",
+  "main": "build/main.js",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

@@ -1,3 +1,3 @@
-const hash = "806e77c-dirty";
+const hash = "faf79ef-dirty";
 
 export default hash;

@@ -2,5 +2,5 @@ build
 bundle
 node_modules
 tsconfig.tsbuildinfo
-systemd-setup/tmp
+ansible-templates/tmp
 *.tgz

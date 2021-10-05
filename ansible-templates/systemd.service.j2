@@ -1,5 +1,5 @@
 [Unit]
-Description={{ package_json.name}}
+Description={{ package_json.name }}
 
 Wants=network.target
 After=syslog.target network-online.target
@@ -9,7 +9,7 @@ Type=simple
 Environment=PATH=/usr/local/lib/nodejs/node-v14.16.0-linux-armv7l/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 Environment="NODE_ENV=production"
 ExecStart=/usr/local/lib/nodejs/node-v14.16.0-linux-armv7l/bin/node main.js
-WorkingDirectory=/opt/services/{{ package_json.name }}/package
+WorkingDirectory=/opt/services/{{ package_json.name }}
 Restart=on-failure
 RestartSec=10
 KillMode=control-group
